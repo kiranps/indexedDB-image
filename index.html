@@ -1,45 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html> 
   <head>
-    <meta charset='utf-8'>
+    <meta charset="UTF-8" /> 
     <script src="js/script.js"></script>
+    <style>
+      a {
+        padding: 5px;
+      }
+    </style>
   </head>
   <body>
     <button type="button" onclick="loadImage()">load image</button>
     <button type="button" onclick="showImage()">show image</button>
-    <img id="photo" src=""/>
-    <script>
-      var dbase = new IDB("image");
-      setTimeout(function () {
-        dbase.create("xterm");
-      }, 2000);
-
-      function loadImage() {
-        var xhr = new XMLHttpRequest(),
-        blob;
-        xhr.open("GET", "images/xterm.png", true);
-        xhr.responseType = "blob";
-        xhr.addEventListener("load", function () {
-          if (xhr.status === 200) {
-            console.log("Image retrieved");
-            blob = xhr.response;
-            console.log(blob);
-            dbase.save("xterm",{data:blob,_id:2});
-          }
-        }, false);
-        xhr.send();
-      }
-
-      function displayImage(data) {
-        var URL = window.URL || window.webkitURL;
-        var imgURL = URL.createObjectURL(data.data);
-        var img = document.getElementById('photo');
-        img.setAttribute("src", imgURL);
-      }
-
-      function showImage() {
-        dbase.get("xterm", 2, displayImage);
-      }
-    </script>
-  </body>
+    <div id="gallery">
+    </div>
+    <script src="js/app.js"></script>
+    <!--<script>-->
+      <!--window.onload = function() {-->
+         <!--loadImage();-->
+      <!--}-->
+    <!--</script>-->
+    <!--<script>-->
+      <!--var dbase = new IDB("gallery");-->
+      <!--setTimeout(function () {-->
+      <!--dbase.delete("bigbuckbunny");-->
+      <!--}, 2000);-->
+    <!--</script>-->
+</body>
 </html>

@@ -9,6 +9,7 @@ function IDB(dbname) {
 
   return {
     create: function (strname) {
+      console.log(db);
       if(db.objectStoreNames.contains(strname)){
         console.log(strname + " store already exists");
       }
@@ -36,13 +37,13 @@ function IDB(dbname) {
       store.put(obj);
       console.log("data saved : " + obj);
     },
-    get: function(strname, _id, callback) {
+    get: function(strname, _id, callback, ele) {
       var transaction = db.transaction([strname], 'readwrite');
       var store = transaction.objectStore(strname);
       store.get(_id).onsuccess = function(e) {
         var data = e.target.result;
         console.log(data);
-        callback(data);
+        callback(data, _id, ele);
       }
     },
     delete: function (strname) {
