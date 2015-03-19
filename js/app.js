@@ -4,24 +4,33 @@ setTimeout(function () {
 }, 2000);
 
 function loadImage() {
-  var images = ["bbb-splash.png","bunny-bow.png","evil-frank.png","its-a-trap.png","rodents.png","rinkysplash.jpg",
-    "thumb-bbb-splash.png","thumb-bunny-bow.png","thumb-evil-frank.png","thumb-its-a-trap.png","thumb-rodents.png","thumb-rinkysplash.jpg"
-  ];
-  images.forEach(function(e) {
-    var xhr = new XMLHttpRequest(),
-    blob;
-    xhr.open("GET", "images/" + e, true);
-    xhr.responseType = "blob";
-    xhr.addEventListener("load", function () {
-      if (xhr.status === 200) {
-        console.log("Image retrieved : " + e);
-        blob = xhr.response;
-        console.log(blob);
-        dbase.save("bigbuckbunny",{image:blob, _id:e});
-      }
-    }, false);
-    xhr.send();
-  });
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "js/bigbuckbunny.json", true);
+  xhr.addEventListener("load", function () {
+    if (xhr.status === 200) {
+      var response = xhr.responseText;
+      var jsonData = JSON.parse(response);
+      var images = jsonData[0].images;
+      console.log(images);
+
+      images.forEach(function(e) {
+        var xhr = new XMLHttpRequest(),
+        blob;
+        xhr.open("GET", "images/" + e, true);
+        xhr.responseType = "blob";
+        xhr.addEventListener("load", function () {
+          if (xhr.status === 200) {
+            console.log("Image retrieved : " + e);
+            blob = xhr.response;
+            console.log(blob);
+            dbase.save("bigbuckbunny",{image:blob, _id:e});
+          }
+        }, false);
+        xhr.send();
+      });
+    }
+  }, false);
+  xhr.send();
 }
 
 function setImage(data, _id) {
